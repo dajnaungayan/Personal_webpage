@@ -1,0 +1,171 @@
+:root {
+    --planet-cont-height:   30vh;
+    --hover-diff:           20vh;
+    --hover-cont-height:    calc( var(--planet-cont-height) + var(--hover-diff) );
+
+    --planet-start:         10vh;
+    --planet-division:      5vh;
+    --mercury-diameter:     10vh;
+    --venus-diameter:       13vh;
+    --earth-diameter:       17vh;
+    --mars-diameter:        10vh;
+    --jupiter-diameter:     30vh;
+    --saturn-diameter:      25vh;
+    --uranus-diameter:      17vh;
+    --neptune-diameter:     13vh;
+
+    --venus-from-left:      calc( var(--planet-start) + var(--mercury-diameter) + var(--planet-division) );
+    --earth-from-left:      calc( var(--venus-from-left) + var(--venus-diameter) + var(--planet-division) );
+    --mars-from-left:       calc( var(--earth-from-left) + var(--earth-diameter) + var(--planet-division) );
+    --jupiter-from-left:    calc( var(--mars-from-left) + var(--mars-diameter) + var(--planet-division) );
+    --saturn-from-left:     calc( var(--jupiter-from-left) + var(--jupiter-diameter) + var(--planet-division) );
+    --uranus-from-left:     calc( var(--saturn-from-left) + var(--saturn-diameter) + var(--planet-division) );
+    --neptune-from-left:    calc( var(--uranus-from-left) + var(--uranus-diameter) + var(--planet-division) );
+    --total-width:          calc( var(--neptune-from-left) + var(--neptune-diameter) + var(--planet-division) + var(--planet-start));
+
+    --magnified-width:      35vh;
+
+    --mercury-color:        linear-gradient(rgb(183, 184, 185),
+                                            rgb(173, 168, 165),
+                                            rgb(177, 173, 173),
+                                            rgb(140, 140, 148),
+                                            rgb(104, 105, 109));
+    --venus-color:         linear-gradient(rgb(248, 226, 176),
+                                            rgb(238, 203, 139),
+                                            rgb(227, 187, 118),
+                                            rgb(211, 165, 103),
+                                            rgb(173, 141, 84));
+    --earth-color:          linear-gradient(rgb(79, 76, 176),
+                                            rgb(107, 147, 214),
+                                            rgb(233, 239, 249),
+                                            rgb(159, 193, 100),
+                                            rgb(216, 197, 150));
+    --mars-color:           linear-gradient(rgb(240, 231, 231),
+                                            rgb(69, 24, 4),
+                                            rgb(193, 68, 14),
+                                            rgb(231, 125, 17),
+                                            rgb(253, 166, 0));
+    --jupiter-color:        linear-gradient(rgb(235, 243, 246),
+                                            rgb(227, 220, 203),
+                                            rgb(216, 202, 157),
+                                            rgb(165, 145, 134),
+                                            rgb(201, 144, 57));
+    --saturn-color:         linear-gradient(rgb(206, 184, 184),
+                                            rgb(234, 214, 184),
+                                            rgb(227, 224, 192),
+                                            rgb(191, 189, 175),
+                                            rgb(206, 206, 206));
+    --uranus-color:         linear-gradient(rgb(225, 238, 238),
+                                            rgb(209, 231, 231),
+                                            rgb(198, 211, 227),
+                                            rgb(248, 248, 255),
+                                            rgb(217, 221, 244));
+    --neptune-color:        linear-gradient(rgb(91, 93, 223),
+                                            rgb(63, 84, 186),
+                                            rgb(39, 70, 135),
+                                            rgb(213, 213, 236),
+                                            rgb(133, 173, 219));
+
+}
+
+body {
+    background-color: black;
+    overflow: hidden;
+}
+
+.hover-planets {
+    position: relative;
+    width: 100%;
+    height: var(--hover-cont-height);
+    background-color: rgba(255, 255, 255, 0);
+    /* background-color: green; */
+    left: calc( -1 * (var(--total-width) - 100%) / 2 );
+    top: calc( 50vh - ( var(--hover-cont-height) / 2) );
+    z-index: -1;
+}
+
+.planets {
+    position: absolute;
+    height: var(--planet-cont-height);
+    width: var(--total-width);
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0);
+    /* background-color: green; */
+    margin-top: calc(var(--hover-diff) / 2);
+    margin-bottom: calc(var(--hover-diff) / 2);
+    /* z-index: 1; */
+}
+
+.planet {
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    position: absolute;
+    border-radius: 50%;
+    display: inline-block;
+    z-index: 9999;
+}
+
+.mercury {
+    width: var(--mercury-diameter);
+    height:var(--mercury-diameter);
+    background: var(--mercury-color);
+    margin: auto;
+    left: calc(var(--planet-start));
+}
+
+.venus {
+    background: var(--venus-color);
+    width: var(--venus-diameter);
+    height:var(--venus-diameter);
+    margin: auto;
+    left: var(--venus-from-left);
+}
+
+.earth {
+    background: var(--earth-color);
+    width: var(--earth-diameter);
+    height:var(--earth-diameter);
+    margin: auto;
+    left: var(--earth-from-left);
+}
+
+.mars {
+    background: var(--mars-color);
+    width:              var(--mars-diameter);
+    height:             var(--mars-diameter);
+    margin:             auto;
+    left:               var(--mars-from-left);    
+}
+
+.jupiter {
+    background: var(--jupiter-color);
+    width:              var(--jupiter-diameter);
+    height:             var(--jupiter-diameter);
+    margin:             auto;
+    left:               var(--jupiter-from-left);
+}
+
+.saturn {
+    background: var(--saturn-color);
+    width:              var(--saturn-diameter);
+    height:             var(--saturn-diameter);
+    margin:             auto;
+    left:               var(--saturn-from-left);
+}
+
+.uranus {
+    background: var(--uranus-color);
+    width:              var(--uranus-diameter);
+    height:             var(--uranus-diameter);
+    margin:             auto;
+    left:               var(--uranus-from-left);
+}
+
+.neptune {
+    background: var(--neptune-color);
+    width:              var(--neptune-diameter);
+    height:             var(--neptune-diameter);
+    margin:             auto;
+    left:               var(--neptune-from-left);
+}
