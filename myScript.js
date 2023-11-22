@@ -52,12 +52,12 @@ window.onmouseup = e => {
 }
 
 // For mobile
-window.ontouchstart = e => {
+window.onpointerup = e => {
     
     planets.dataset.mouseDownAt = e.clientX;
 }
 
-window.ontouchmove = e => {
+window.onpointermove = e => {
     allPlanets.forEach(planetAtCenter);
     if(planets.dataset.mouseDownAt === "0") return;
 
@@ -71,7 +71,7 @@ window.ontouchmove = e => {
     }, { duration: 1200, fill: "forwards"});
 }
 
-window.ontouchend = e => {
+window.onpointerdown = e => {
     planets.dataset.mouseDownAt = "0";
     planets.dataset.prevPercentage = planets.dataset.percentage;
     
