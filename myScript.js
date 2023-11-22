@@ -51,6 +51,33 @@ window.onmouseup = e => {
     allPlanets.forEach(planetAtCenter);
 }
 
+// For mobile
+window.ontouchstart = e => {
+    
+    planets.dataset.mouseDownAt = e.clientX;
+}
+
+window.ontouchmove = e => {
+    allPlanets.forEach(planetAtCenter);
+    if(planets.dataset.mouseDownAt === "0") return;
+
+    const mouseDelta = parseFloat(planets.dataset.mouseDownAt) - e.clientX;
+    const percentage = -mouseDelta;
+    const nextPercentage = parseFloat(planets.dataset.prevPercentage) + percentage;
+    planets.dataset.percentage = nextPercentage;
+
+    planets.animate({
+        transform: `translate(${nextPercentage}px, 0%)`
+    }, { duration: 1200, fill: "forwards"});
+}
+
+window.ontouchend = e => {
+    planets.dataset.mouseDownAt = "0";
+    planets.dataset.prevPercentage = planets.dataset.percentage;
+    
+    allPlanets.forEach(planetAtCenter);
+}
+
 function planetAtCenter(planet0) {
     let planetWidthMap = {};
 
