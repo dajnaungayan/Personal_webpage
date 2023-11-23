@@ -12,7 +12,7 @@ saturn          = document.getElementsByClassName("saturn");
 uranus          = document.getElementsByClassName("uranus");
 neptune         = document.getElementsByClassName("neptune");
 
-let planetWidthMap = {};
+planetWidthMap = {};
 
 focusedPlanetWidth = '50';
 planetWidthMap['mercury planet']    = '10';
