@@ -1,6 +1,7 @@
 planets         = document.getElementById("planets");
 hoverplanets    = document.getElementById("hover-planets");
 focusLayer      = document.getElementById("focus-layer");
+backgroundSpace = document.getElementById("background-space");
 
 mercury         = document.getElementsByClassName("mercury");
 venus           = document.getElementsByClassName("venus");
@@ -10,6 +11,21 @@ jupiter         = document.getElementsByClassName("jupiter");
 saturn          = document.getElementsByClassName("saturn");
 uranus          = document.getElementsByClassName("uranus");
 neptune         = document.getElementsByClassName("neptune");
+
+let planetWidthMap = {};
+
+focusedPlanetWidth = '50';
+planetWidthMap['mercury planet']    = '10';
+planetWidthMap['venus planet']      = '13';
+planetWidthMap['earth planet']      = '17';
+planetWidthMap['mars planet']       = '10';
+planetWidthMap['jupiter planet']    = '30';
+planetWidthMap['saturn planet']     = '25';
+planetWidthMap['uranus planet']     = '17';
+planetWidthMap['neptune planet']    = '13';
+
+focusedPlanetsArray = [false, false, false, false, false, false, false, false];
+
 
 const allPlanets = [mercury, venus, earth, 
                     mars, jupiter, saturn, 
@@ -30,22 +46,14 @@ window.onmousemove = e => {
     const mouseDelta = parseFloat(planets.dataset.mouseDownAt) - e.clientX;
     const percentage = -mouseDelta;
     const nextPercentage = parseFloat(planets.dataset.prevPercentage) + percentage;
-    // const rawNextPercentage = parseFloat(planets.dataset.prevPercentage) + percentage;
-
-    // const nextPercentage = Math.min(Math.max(rawNextPercentage, MIN), MAX)
     planets.dataset.percentage = nextPercentage;
-
-    // if( neptune[0].getBoundingClientRect().left < nextPercentage )
-    // {
-        planets.animate({
-            transform: `translate(${nextPercentage}px, 0%)`
-        }, { duration: 1200, fill: "forwards"});
-    // }
+    planets.animate({
+        transform: `translate(${nextPercentage}px, 0%)`
+    }, { duration: 1200, fill: "forwards"});
 }
 
 window.onmouseup = e => {
     planets.dataset.mouseDownAt = "0";
-    // centerToNearestPlanet();
     planets.dataset.prevPercentage = planets.dataset.percentage;
     
     allPlanets.forEach(planetAtCenter);
@@ -69,6 +77,10 @@ window.onpointermove = e => {
     planets.animate({
         transform: `translate(${nextPercentage}px, 0%)`
     }, { duration: 1200, fill: "forwards"});
+
+    backgroundSpace.animate({
+        transform: `translate(${-nextPercentage/100}px, 0%)`
+    }, { duration: 1200, fill: "forwards"});
 }
 
 window.onpointerdown = e => {
@@ -78,21 +90,9 @@ window.onpointerdown = e => {
     allPlanets.forEach(planetAtCenter);
 }
 
-function planetAtCenter(planet0) {
-    let planetWidthMap = {};
 
-    hasOverlap = false;
 
-    focusedPlanetWidth = '50';
-    planetWidthMap['mercury planet']    = '10';
-    planetWidthMap['venus planet']      = '13';
-    planetWidthMap['earth planet']      = '17';
-    planetWidthMap['mars planet']       = '10';
-    planetWidthMap['jupiter planet']    = '30';
-    planetWidthMap['saturn planet']     = '25';
-    planetWidthMap['uranus planet']     = '17';
-    planetWidthMap['neptune planet']    = '13';
-
+function planetAtCenter(planet0, index) {
     planet = planet0[0];
     const planetRect1 = planet.getBoundingClientRect();
     const lineRect2 = line.getBoundingClientRect();
@@ -105,25 +105,46 @@ function planetAtCenter(planet0) {
 
     if(overlap)
     {
-        console.log(planetWidthMap[planet.className]);
+        focusedPlanetsArray[index] = overlap;
         planet.animate({
             width: `${focusedPlanetWidth}vh`,
             height: `${focusedPlanetWidth}vh`,
             zIndex: "999",
             filter: "brightness(100%)"
         }, { duration: 1200, fill: "forwards"});
-
     }
 
     else{
-        planet.animate({
-            // transform: `scale(1) translateY(-50%)`
-            width: `${planetWidthMap[planet.className]}vh`,
-            height: `${planetWidthMap[planet.className]}vh`,
-            zIndex: "-1",
-            filter: "brightness(50%)"
-    }, { duration: 1200, fill: "forwards"});
+        focusedPlanetsArray[index] = overlap;
+        if(isFocusedPlanetPresent()){
+            planet.animate({
+                width: `${planetWidthMap[planet.className]}vh`,
+                height: `${planetWidthMap[planet.className]}vh`,
+                zIndex: "-1",
+                filter: "brightness(50%)"
+            }, { duration: 1200, fill: "forwards"});
+        }
+        else{
+            planet.animate({
+                width: `${planetWidthMap[planet.className]}vh`,
+                height: `${planetWidthMap[planet.className]}vh`,
+                zIndex: "-1",
+                filter: "brightness(100%)"
+            }, { duration: 1200, fill: "forwards"});
+        }
     }
+
+    return overlap;
+}
+
+function isFocusedPlanetPresent() {
+    focusedPlanetPresent = false;
+    for(var i = 0; i < focusedPlanetsArray.length ; i++ )
+    {
+        focusedPlanetPresent = focusedPlanetPresent || focusedPlanetsArray[i];
+    }
+
+    return focusedPlanetPresent;
 }
 
 // function centerToNearestPlanet() {

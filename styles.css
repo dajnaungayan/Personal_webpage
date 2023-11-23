@@ -2,7 +2,7 @@
     --planet-cont-height:   30vh;
     --hover-diff:           20vh;
     --hover-cont-height:    calc( var(--planet-cont-height) + var(--hover-diff) );
-    --planet-cont-width:    40vh;
+    --planet-cont-width:    80vh;
 
     --planet-start:         10vh;
     --planet-division:      5vh;
@@ -14,14 +14,12 @@
     --saturn-diameter:      25vh;
     --uranus-diameter:      17vh;
     --neptune-diameter:     13vh;
+    --blackhole-diameter:   90vh;
+    --blackhole-rings:      calc(var(--blackhole-diameter) + var(--blackhole-diameter));
+    --blackhole-height:     calc(var(--blackhole-diameter) + 10vh );
+    --blackhole-width:      calc( (var(--blackhole-height) + var(--blackhole-height)));
+    --initial-blackhole-scale: 0.01;
 
-    --venus-from-left:      calc( var(--planet-start) + var(--mercury-diameter) + var(--planet-division) );
-    --earth-from-left:      calc( var(--venus-from-left) + var(--venus-diameter) + var(--planet-division) );
-    --mars-from-left:       calc( var(--earth-from-left) + var(--earth-diameter) + var(--planet-division) );
-    --jupiter-from-left:    calc( var(--mars-from-left) + var(--mars-diameter) + var(--planet-division) );
-    --saturn-from-left:     calc( var(--jupiter-from-left) + var(--jupiter-diameter) + var(--planet-division) );
-    --uranus-from-left:     calc( var(--saturn-from-left) + var(--saturn-diameter) + var(--planet-division) );
-    --neptune-from-left:    calc( var(--uranus-from-left) + var(--uranus-diameter) + var(--planet-division) );
     /* --total-width:          calc( var(--neptune-from-left) + var(--neptune-diameter) + var(--planet-division) + var(--planet-start)); */
     --total-width:          calc( var(--planet-cont-width) * 8 );
 
@@ -128,7 +126,6 @@ body {
     height:var(--mercury-diameter);
     background: var(--mercury-color);
     margin: auto;
-    /* left: calc(var(--planet-start)); */
 }
 
 .venus {
@@ -136,7 +133,6 @@ body {
     width: var(--venus-diameter);
     height:var(--venus-diameter);
     margin: auto;
-    /* left: var(--venus-from-left); */
 }
 
 .earth {
@@ -144,7 +140,6 @@ body {
     width: var(--earth-diameter);
     height:var(--earth-diameter);
     margin: auto;
-    /* left: var(--earth-from-left); */
 }
 
 .mars {
@@ -152,7 +147,6 @@ body {
     width:              var(--mars-diameter);
     height:             var(--mars-diameter);
     margin:             auto;
-    /* left:               var(--mars-from-left);     */
 }
 
 .jupiter {
@@ -160,7 +154,6 @@ body {
     width:              var(--jupiter-diameter);
     height:             var(--jupiter-diameter);
     margin:             auto;
-    /* left:               var(--jupiter-from-left); */
 }
 
 .saturn {
@@ -168,7 +161,6 @@ body {
     width:              var(--saturn-diameter);
     height:             var(--saturn-diameter);
     margin:             auto;
-    /* left:               var(--saturn-from-left); */
 }
 
 .uranus {
@@ -176,7 +168,6 @@ body {
     width:              var(--uranus-diameter);
     height:             var(--uranus-diameter);
     margin:             auto;
-    /* left:               var(--uranus-from-left); */
 }
 
 .neptune {
@@ -184,7 +175,6 @@ body {
     width:              var(--neptune-diameter);
     height:             var(--neptune-diameter);
     margin:             auto;
-    /* left:               var(--neptune-from-left); */
 }
 
 #line {
@@ -201,4 +191,148 @@ body {
     width: 100%;
     height: 100%;
     position: fixed;
+}
+
+#background-space {
+    width: 100vw;
+    height:100vh;
+    position: fixed;
+    z-index:-1;
+
+    /* From https://projects.verou.me/css3patterns/#starry-night */
+    background-color:black;
+    background-image:
+    radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 8px),
+    radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 7px),
+    radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 10px),
+    radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 5px);
+    background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px;
+    background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
+}
+
+.blackhole-container {
+    width:      var(--blackhole-width);
+    height:     var(--blackhole-height);
+    background-color: black;
+    margin: auto;
+    align-items: center;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    filter: blur(80px);
+    filter: brightness(150%);
+
+    transform: scale(var(--initial-blackhole-scale));
+
+    animation-name: blackhole-gravity;
+    animation-duration: 900s;
+    animation-duration: 1;
+    animation-fill-mode: forwards;
+}
+
+.blackhole {
+    position: absolute;
+    width:      var(--blackhole-diameter);
+    height:     var(--blackhole-diameter);
+    margin: auto;
+    background: radial-gradient(
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0) 60%,
+        rgba(255, 255, 255, 1) 60%,
+        rgba(255, 165, 0, 1) 65%,
+        rgba(0, 0, 0, 0) 70%,
+        rgba(0, 0, 0, 0) 100%
+      );
+    filter: blur(8px);
+
+    animation-name: blackhole-blur;
+    animation-duration: 900s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+.blackhole-rings-filter {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: var(--blackhole-rings);
+    /* width: 100vw; */
+    height: 50%;
+
+    /* width: 100%;
+    height: 50%; */
+
+    filter: blur(10px);
+    /* transform: rotate(-25deg); */
+    top: 40%;
+}
+
+.blackhole-rings{
+    position: absolute;
+    width: var(--blackhole-rings);
+    /* width:      calc(100vh + 100vh); */
+    /* width: 100vh; */
+    height:     17vh;
+
+    background: radial-gradient(
+        rgba(255, 255, 255, 0.5) 0%,
+        rgba(255, 255, 255, 0.5) 30%,
+        rgba(255, 255, 255, 0.5) 40%,
+        orange 50%,
+        rgba(0, 0, 0, 0) 60%,
+        rgba(0, 0, 0, 0) 100%
+    );
+}
+
+.ring1 {
+    position: absolute;
+    top: 0%;
+}
+
+.ring2 {
+    position: absolute;
+    top: 0.5%;
+}
+
+.ring3 {
+    position: absolute;
+    top: 0.7%;
+}
+
+.ring4 {
+    position: absolute;
+    top: 3.5%;
+}
+
+.ring5 {
+    position: absolute;
+    top: 7%;
+}
+
+@keyframes blackhole-gravity {
+    0% {
+        transform: scale(var(--initial-blackhole-scale));
+    }
+
+    100% {
+        transform: scale(2);
+    }
+}
+
+@keyframes blackhole-blur {
+    0% {
+        filter: blur(8px);
+    }
+
+    70% {
+        filter: blur(8px);
+    }
+
+    87.5% {
+        filter: blur(5px);
+    }
+
+    100% {
+        filter: blur(0);
+    }
 }
